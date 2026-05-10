@@ -1,0 +1,184 @@
+cat > config/config.yaml << 'EOF'
+# =============================================================
+# SmartSupport RAG — Configuration centrale
+# Tous les paramètres techniques du projet
+# =============================================================
+
+# -------------------------------------------------------------
+# LLM — Choix des modèles selon la tâche
+# -------------------------------------------------------------
+llm:
+  # LLM principal — RAG sur documents longs
+  # Claude 3 Sonnet : 200K tokens contexte, excellent sur texte technique
+  rag:
+    provider: anthropic
+    model: claude-3-5-sonnet-20241022
+    temperature: 0.1        # Faible : réponses précises et factuelles
+    max_tokens: 2048
+
+  # LLM rapide — Questions simples et courtes
+  # Claude 3 Haiku : 3x moins cher, 2x plus rapide que Sonnet
+  fast:
+    provider: anthropic
+    model: claude-3-haiku-20240307
+    temperature: 0.1
+    max_tokens: 1024
+
+  # LLM évaluation — Juge la qualité des réponses
+  # GPT-4o : meilleur raisonnement pour le scoring RAGAS
+  evaluation:
+    provider: openai
+    model: gpt-4o
+    temperature: 0.0        # Zéro : évaluations reproductibles
+    max_tokens: 2048
+
+  # LLM souverain — Données confidentielles
+  # Mistral local : aucune donnée ne quitte l'infrastructure
+  sovereign:
+    provider: ollama
+    model: mistral
+    temperature: 0.1
+    max_tokens: 2048
+
+# -------------------------------------------------------------
+# Embeddings — Vectorisation des documents et questions
+# -------------------------------------------------------------
+embeddings:
+  # text-embedding-3-small : meilleur rapport qualité/coût OpenAI
+  # 1536 dimensions, 62% moins cher que ada-002
+  provider: openai
+  model: text-embedding-3-small
+  dimensions: 1536
+
+  # Alternative locale — souveraineté des données
+  # local:
+  #   provider: huggingface
+  #   model: sentence-transformers/all-MiniLM-L6-v2
+  #   dimensions: 384
+
+# -------------------------------------------------------------
+# Chunking — Découpage adaptatif par type de document
+# Règle : chunk_size selon la densité du texte
+#         overlap = 15-20% de chunk_size
+# -------------------------------------------------------------
+chunking:
+  # PDF — documents techniques denses (FAQ, rapports)
+  pdf:
+    chunk_size: 600
+    chunk_overlap: 100
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+  # DOCX — rapports structurés par paragraphes
+  docx:
+    chunk_size: 700
+    chunk_overlap: 120
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+  # CSV — données tabulaires courtes et indépendantes
+  csv:
+    chunk_size: 300
+    chunk_overlap: 50
+    separators: ["\n", ", ", " ", ""]
+
+  # JSON — données structurées
+  json:
+    chunk_size: 400
+    chunk_overlap: 80
+    separators: ["\n\n", "\n", " ", ""]
+
+  # HTML — contenu web mixte
+  html:
+    chunk_size: 500
+    chunk_overlap: 100
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+  # Email — messages courts
+  email:
+    chunk_size: 400
+    chunk_overlap: 80
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+  # TXT — texte brut
+  txt:
+    chunk_size: 500
+    chunk_overlap: 100
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+  # Valeurs par défaut si type non reconnu
+  default:
+    chunk_size: 500
+    chunk_overlap: 100
+    separators: ["\n\n", "\n", ". ", " ", ""]
+
+# -------------------------------------------------------------
+# Vector Store — Stockage et recherche des vecteurs
+# -------------------------------------------------------------
+vector_store:
+  # "chroma" pour la production (persistance automatique)
+  # "faiss" pour le développement (simple, sans installation)
+  type: chroma
+
+  chroma:
+    collection_name: smartsupport_docs
+    persist_directory: ./data/chroma_db
+
+  faiss:
+    index_path: ./data/faiss_index
+
+# -------------------------------------------------------------
+# RAG — Paramètres de retrieval et génération
+# -------------------------------------------------------------
+rag:
+  # Nombre de chunks retournés par la recherche vectorielle
+  # Plus k est grand : plus de contexte mais plus lent
+  top_k: 4
+
+  # Seuil de confiance — entre 0.0 et 1.0
+  # En dessous : fallback déclenché (réponse incertaine signalée)
+  confidence_threshold: 0.75
+
+  # Seuil d'avertissement — réponse affichée mais avec warning
+  confidence_warning: 0.50
+
+  # Prompt système RAG
+  system_prompt: |
+    Tu es un assistant support client expert pour TechVision SAS.
+    Tu réponds aux questions des agents support en te basant
+    UNIQUEMENT sur les documents fournis en contexte.
+
+    Règles strictes :
+    - Cite toujours tes sources (nom du fichier, numéro de page si disponible)
+    - Si l'information n'est pas dans le contexte, dis-le explicitement
+    - Ne jamais inventer ou extrapoler des informations
+    - Utilise un langage clair et professionnel
+    - Structure ta réponse avec des étapes numérotées si c'est une procédure
+
+# -------------------------------------------------------------
+# Évaluation RAGAS — Métriques de qualité
+# -------------------------------------------------------------
+evaluation:
+  # Métriques à calculer à chaque évaluation
+  metrics:
+    - faithfulness          # La réponse est-elle fidèle aux sources ?
+    - answer_relevancy      # La réponse répond-elle à la question ?
+    - context_precision     # Les chunks retrouvés sont-ils pertinents ?
+    - context_recall        # Toutes les infos nécessaires ont-elles été retrouvées ?
+
+  # Seuils de qualité minimale
+  thresholds:
+    faithfulness: 0.80
+    answer_relevancy: 0.75
+    context_precision: 0.70
+    context_recall: 0.70
+
+  # LLM utilisé comme juge par RAGAS
+  judge_llm: gpt-4o
+
+# -------------------------------------------------------------
+# Logging — Traçabilité et débogage
+# -------------------------------------------------------------
+logging:
+  level: INFO               # DEBUG en développement, INFO en production
+  format: json              # "json" pour la prod, "rich" pour le dev
+  file: ./logs/app.log      # Fichier de log (créé automatiquement)
+EOF
