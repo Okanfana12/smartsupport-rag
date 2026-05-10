@@ -64,14 +64,14 @@ embeddings:
 chunking:
   # PDF — documents techniques denses (FAQ, rapports, manuels)
   pdf:
-    chunk_size: 600
-    chunk_overlap: 100
+    chunk_size: 400
+    chunk_overlap: 80
     separators: ["\n\n", "\n", ". ", " ", ""]
 
   # DOCX — rapports structurés par paragraphes
   docx:
-    chunk_size: 700
-    chunk_overlap: 120
+    chunk_size: 400
+    chunk_overlap: 80
     separators: ["\n\n", "\n", ". ", " ", ""]
 
   # CSV — données tabulaires courtes et indépendantes
