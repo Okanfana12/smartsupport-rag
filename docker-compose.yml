@@ -1,0 +1,51 @@
+cat > docker-compose.yml << 'EOF'
+# =============================================================
+# SmartSupport RAG — Docker Compose
+# Lancer : docker-compose up --build
+# Interface : http://localhost:8501
+# =============================================================
+
+version: "3.9"
+
+services:
+
+  # ── Application Streamlit ──────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartsupport_app
+    ports:
+      - "8501:8501"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2}
+      - LANGCHAIN_PROJECT=${LANGCHAIN_PROJECT}
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - VECTOR_STORE=chroma
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+      - CONFIDENCE_THRESHOLD=${CONFIDENCE_THRESHOLD}
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./logs:/app/logs
+    depends_on:
+      - chromadb
+    restart: unless-stopped
+
+  # ── ChromaDB — Base vectorielle ────────────────────────────
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: smartsupport_chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+    driver: local
+EOF
