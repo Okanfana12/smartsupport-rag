@@ -1,7 +1,7 @@
 # SmartSupport RAG
 
 > Plateforme RAG modulaire pour l'automatisation du support client.  
-> Transforme la documentation interne et l'historique des tickets en assistant IA capable de répondre instantanément aux questions des agents support — avec sources citées et score de confiance explicite.
+> Transforme la documentation interne et l'historique des tickets en assistant IA capable de répondre instantanément aux questions des agents support, avec sources citées et score de confiance explicite.
 
 ---
 
