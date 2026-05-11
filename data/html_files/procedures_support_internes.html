@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Procédures Support Internes — TechVision</title>
+</head>
+<body>
+
+<h1>Procédures Internes Support Client — TechVision SAS</h1>
+<p><strong>Version :</strong> 2.4 | <strong>Mise à jour :</strong> Février 2026 | <strong>Auteur :</strong> Direction Support</p>
+
+<hr>
+
+<h2>1. Procédure d'ouverture de ticket</h2>
+
+<h3>1.1 Canaux de contact et priorités automatiques</h3>
+<table>
+    <tr>
+        <th>Canal</th>
+        <th>Priorité par défaut</th>
+        <th>Délai de prise en charge</th>
+    </tr>
+    <tr>
+        <td>Chat en direct</td>
+        <td>P3</td>
+        <td>2 minutes</td>
+    </tr>
+    <tr>
+        <td>Email support@techvision.fr</td>
+        <td>P3</td>
+        <td>4 heures</td>
+    </tr>
+    <tr>
+        <td>Téléphone (Business+)</td>
+        <td>P2</td>
+        <td>1 heure</td>
+    </tr>
+    <tr>
+        <td>Portail client (ticket manuel)</td>
+        <td>Selon sélection client</td>
+        <td>Selon priorité</td>
+    </tr>
+</table>
+
+<h3>1.2 Informations obligatoires à collecter</h3>
+<ul>
+    <li>Nom et prénom du contact</li>
+    <li>Adresse email du compte</li>
+    <li>ID organisation (visible dans Admin → Organisation → Informations)</li>
+    <li>Plan actif (Starter / Pro / Business / Enterprise)</li>
+    <li>Description précise du problème</li>
+    <li>Depuis quand le problème est survenu</li>
+    <li>Nombre d'utilisateurs impactés</li>
+    <li>Captures d'écran ou messages d'erreur (si disponibles)</li>
+</ul>
+
+<h2>2. Procédures de sécurité</h2>
+
+<h3>2.1 Vérification d'identité</h3>
+<p>Avant toute modification sensible sur un compte, l'identité du client doit être vérifiée avec <strong>au moins 3 des éléments suivants</strong> :</p>
+<ol>
+    <li>Nom et prénom</li>
+    <li>Adresse email du compte</li>
+    <li>Numéro de téléphone enregistré</li>
+    <li>Date de naissance</li>
+    <li>Numéro de client (visible sur les factures)</li>
+    <li>Dernière facture (montant et date)</li>
+</ol>
+
+<p><strong>Modifications nécessitant une vérification d'identité :</strong></p>
+<ul>
+    <li>Changement d'adresse email principale</li>
+    <li>Changement de mot de passe (si demande téléphonique)</li>
+    <li>Suppression de compte</li>
+    <li>Modification des informations de facturation</li>
+    <li>Ajout d'un administrateur</li>
+</ul>
+
+<h3>2.2 Gestion des incidents de sécurité</h3>
+
+<h4>Niveau 1 — Alerte (accès suspect, tentatives de connexion anormales)</h4>
+<ol>
+    <li>Documenter l'incident dans le ticket</li>
+    <li>Informer le client des activités suspectes</li>
+    <li>Recommander fortement l'activation du 2FA</li>
+    <li>Surveiller le compte pendant 24h</li>
+</ol>
+
+<h4>Niveau 2 — Incident confirmé (compte compromis avéré)</h4>
+<ol>
+    <li>Suspendre immédiatement le compte</li>
+    <li>Révoquer toutes les sessions actives et clés API</li>
+    <li>Réinitialiser le mot de passe</li>
+    <li>Créer un ticket type SEC-BREACH</li>
+    <li>Notifier security@techvision.fr dans les 15 minutes</li>
+    <li>Rappeler le client dans les 30 minutes</li>
+    <li>Documenter toutes les actions dans le ticket</li>
+</ol>
+
+<h4>Niveau 3 — Violation de données (données potentiellement exposées)</h4>
+<ol>
+    <li>Toutes les actions du niveau 2</li>
+    <li>Notifier immédiatement le DPO : dpo@techvision.fr</li>
+    <li>NE PAS communiquer publiquement sans accord de la direction</li>
+    <li>Conserver tous les journaux d'audit</li>
+    <li>Délai légal de notification RGPD : 72 heures maximum</li>
+</ol>
+
+<h2>3. Procédures de facturation</h2>
+
+<h3>3.1 Création d'un avoir</h3>
+
+<p><strong>Conditions d'éligibilité :</strong></p>
+<ul>
+    <li>Erreur de facturation confirmée de la part de TechVision</li>
+    <li>Incident de service ayant causé une indisponibilité > 4 heures consécutives</li>
+    <li>Double facturation</li>
+    <li>Facturation après résiliation confirmée</li>
+</ul>
+
+<p><strong>Procédure :</strong></p>
+<ol>
+    <li>Vérifier l'historique de facturation dans Admin → Facturation</li>
+    <li>Confirmer l'erreur et son montant</li>
+    <li>Si montant ≤ 500€ : créer l'avoir directement (Admin → Facturation → "Créer un avoir")</li>
+    <li>Si montant > 500€ : soumettre pour validation à facturation@techvision.fr avec justificatifs</li>
+    <li>Informer le client du délai de remboursement : 5 à 10 jours ouvrés</li>
+    <li>Documenter dans le ticket</li>
+</ol>
+
+<h3>3.2 Gestion des impayés</h3>
+
+<p><strong>Processus de relance :</strong></p>
+<ul>
+    <li>J+0 : Échec de prélèvement → Email automatique de relance</li>
+    <li>J+3 : Deuxième tentative de prélèvement automatique</li>
+    <li>J+7 : Email de relance manuelle + accès limité aux nouvelles fonctionnalités</li>
+    <li>J+15 : Suspension du compte (données conservées)</li>
+    <li>J+30 : Transfert au service contentieux</li>
+    <li>J+90 : Suppression des données (après notification préalable)</li>
+</ul>
+
+<h2>4. Escalade et transfert de tickets</h2>
+
+<h3>4.1 Critères d'escalade obligatoire</h3>
+
+<p>Escalader immédiatement au niveau 2 si :</p>
+<ul>
+    <li>Perte de données confirmée ou suspectée</li>
+    <li>Compromission de compte confirmée</li>
+    <li>Plus de 10 utilisateurs impactés simultanément</li>
+    <li>Client Enterprise mécontent (toujours escalader)</li>
+    <li>Litige financier > 500€</li>
+    <li>Demande de remboursement > 500€</li>
+    <li>Problème technique non résolu après 2 heures (P2) ou 24 heures (P3)</li>
+    <li>Client menaçant des poursuites judiciaires</li>
+</ul>
+
+<h3>4.2 Procédure de transfert de ticket</h3>
+<ol>
+    <li>Résumer clairement la situation dans le ticket (chronologie, actions effectuées)</li>
+    <li>Indiquer ce qui a déjà été testé</li>
+    <li>Mentionner le niveau de satisfaction du client</li>
+    <li>Transférer via l'outil de ticketing (ne pas simplement changer l'assigné)</li>
+    <li>Informer le client du transfert et donner le nom du nouvel interlocuteur</li>
+    <li>Rester disponible pour questions du niveau 2 pendant 1 heure</li>
+</ol>
+
+<h2>5. Gestion de la satisfaction client</h2>
+
+<h3>5.1 Enquêtes de satisfaction</h3>
+<p>Une enquête CSAT (Customer Satisfaction Score) est envoyée automatiquement après chaque ticket résolu. L'enquête comprend :</p>
+<ul>
+    <li>Note globale de 1 à 5</li>
+    <li>Rapidité de prise en charge (1 à 5)</li>
+    <li>Qualité de la solution (1 à 5)</li>
+    <li>Commentaire libre (optionnel)</li>
+</ul>
+
+<h3>5.2 Objectifs de performance support</h3>
+<table>
+    <tr>
+        <th>Indicateur</th>
+        <th>Objectif</th>
+    </tr>
+    <tr>
+        <td>CSAT moyen</td>
+        <td>≥ 4.2 / 5</td>
+    </tr>
+    <tr>
+        <td>Taux de résolution niveau 1</td>
+        <td>≥ 80%</td>
+    </tr>
+    <tr>
+        <td>Délai moyen de résolution P3</td>
+        <td>≤ 8 heures</td>
+    </tr>
+    <tr>
+        <td>Taux de réouverture de tickets</td>
+        <td>≤ 5%</td>
+    </tr>
+    <tr>
+        <td>Respect des SLA</td>
+        <td>≥ 95%</td>
+    </tr>
+</table>
+
+<h3>5.3 Compensations autorisées</h3>
+<table>
+    <tr>
+        <th>Situation</th>
+        <th>Compensation autorisée</th>
+        <th>Approbation requise</th>
+    </tr>
+    <tr>
+        <td>Incident mineur résolu rapidement</td>
+        <td>1 mois gratuit plan actuel</td>
+        <td>Agent niveau 1</td>
+    </tr>
+    <tr>
+        <td>Incident majeur (P1/P2)</td>
+        <td>2 mois gratuits ou réduction 3 mois</td>
+        <td>Superviseur</td>
+    </tr>
+    <tr>
+        <td>Perte de données avérée</td>
+        <td>3 à 6 mois gratuits + avoir</td>
+        <td>Direction</td>
+    </tr>
+    <tr>
+        <td>Client Enterprise insatisfait</td>
+        <td>À définir au cas par cas</td>
+        <td>Account Manager + Direction</td>
+    </tr>
+</table>
+
+<hr>
+<p><em>TechVision SAS — Document interne confidentiel — Ne pas diffuser en dehors de l'équipe support</em></p>
+<p><em>Questions : superviseur-support@techvision.fr</em></p>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+{
+  "entreprise": "TechVision SAS",
+  "version": "2.1",
+  "derniere_mise_a_jour": "2026-03-01",
+  "base_de_connaissances": {
+    "plans_tarifaires": {
+      "starter": {
+        "prix_mensuel": 29,
+        "prix_annuel": 290,
+        "utilisateurs_max": 5,
+        "stockage_go": 10,
+        "appels_api_jour": 1000,
+        "upload_max_mo": 20,
+        "support": "Email uniquement",
+        "delai_reponse": "24 heures",
+        "fonctionnalites": [
+          "Tableau de bord basique",
+          "Rapports standard",
+          "Intégrations basiques (Zapier, Slack)",
+          "Export CSV"
+        ],
+        "fonctionnalites_exclues": [
+          "2FA obligatoire organisation",
+          "API avancée",
+          "SSO",
+          "Support téléphonique",
+          "Formation personnalisée"
+        ]
+      },
+      "pro": {
+        "prix_mensuel": 79,
+        "prix_annuel": 790,
+        "utilisateurs_max": 25,
+        "stockage_go": 100,
+        "appels_api_jour": 10000,
+        "upload_max_mo": 50,
+        "support": "Email + Chat",
+        "delai_reponse": "4 heures",
+        "fonctionnalites": [
+          "Tableau de bord avancé",
+          "Rapports personnalisés",
+          "Toutes les intégrations standard",
+          "Export CSV, JSON, PDF",
+          "API v2 complète",
+          "2FA utilisateur individuel"
+        ],
+        "fonctionnalites_exclues": [
+          "2FA obligatoire organisation",
+          "SSO",
+          "Support téléphonique dédié",
+          "Formation personnalisée"
+        ]
+      },
+      "business": {
+        "prix_mensuel": 199,
+        "prix_annuel": 1990,
+        "utilisateurs_max": 100,
+        "stockage_go": 1000,
+        "appels_api_jour": 100000,
+        "upload_max_mo": 500,
+        "support": "Email + Chat + Téléphone",
+        "delai_reponse": "1 heure",
+        "fonctionnalites": [
+          "Toutes les fonctionnalités Pro",
+          "2FA obligatoire au niveau organisation",
+          "SSO (SAML 2.0)",
+          "Rapports avancés avec BI",
+          "API v3 avec webhooks",
+          "Intégrations enterprise (Salesforce, HubSpot, SAP)",
+          "Support téléphonique dédié"
+        ],
+        "fonctionnalites_exclues": [
+          "Formation personnalisée illimitée",
+          "SLA contractuel",
+          "Environnement dédié"
+        ]
+      },
+      "enterprise": {
+        "prix_mensuel": "Sur devis",
+        "utilisateurs_max": "Illimité",
+        "stockage_go": "Illimité",
+        "appels_api_jour": "Illimité",
+        "upload_max_mo": 2000,
+        "support": "Support dédié 24/7",
+        "delai_reponse": "30 minutes",
+        "fonctionnalites": [
+          "Toutes les fonctionnalités Business",
+          "Environnement dédié",
+          "SLA contractuel (99.9% uptime)",
+          "Formation personnalisée illimitée",
+          "Intégrations sur mesure",
+          "Audit de sécurité annuel",
+          "Account Manager dédié"
+        ]
+      }
+    },
+    "politique_remboursement": {
+      "engagement_mensuel": {
+        "remboursement_pro_rata": false,
+        "delai_remboursement_jours": "5 à 10 jours ouvrés",
+        "methode": "Avoir ou remboursement sur carte bancaire"
+      },
+      "engagement_annuel": {
+        "remboursement_pro_rata": true,
+        "condition": "Si plus de 6 mois restants sur l'engagement",
+        "delai_remboursement_jours": "10 à 15 jours ouvrés"
+      },
+      "avoir_sans_validation": {
+        "montant_max_euros": 500,
+        "validateur": "Agent niveau 1"
+      },
+      "avoir_avec_validation": {
+        "montant_min_euros": 500,
+        "validateur": "Responsable facturation niveau 2"
+      }
+    },
+    "politique_resiliation": {
+      "preavis_jours": 30,
+      "effective": "Fin du mois en cours + 30 jours",
+      "offres_retention": [
+        {
+          "code": "FIDELITE20",
+          "description": "20% de réduction pendant 3 mois",
+          "validite_heures": 72,
+          "eligible": "Tous les plans"
+        },
+        {
+          "code": "GRATUIT30",
+          "description": "1 mois gratuit plan Starter",
+          "validite_heures": 72,
+          "eligible": "Plan Starter uniquement"
+        },
+        {
+          "code": "PRO30OFF",
+          "description": "30% de réduction pendant 3 mois plan Pro",
+          "validite_heures": 72,
+          "eligible": "Plan Pro uniquement"
+        }
+      ]
+    },
+    "sla": {
+      "priorites": {
+        "P1_critique": {
+          "definition": "Plateforme inaccessible, perte de données, faille sécurité",
+          "delai_prise_en_charge_minutes": 30,
+          "delai_resolution_heures": 4,
+          "escalade_automatique": true
+        },
+        "P2_haute": {
+          "definition": "Fonctionnalité majeure indisponible, plus de 10 utilisateurs impactés",
+          "delai_prise_en_charge_heures": 2,
+          "delai_resolution_heures": 24,
+          "escalade_automatique": false
+        },
+        "P3_normale": {
+          "definition": "Problème isolé, contournement disponible",
+          "delai_prise_en_charge_heures": 4,
+          "delai_resolution_heures": 72,
+          "escalade_automatique": false
+        },
+        "P4_basse": {
+          "definition": "Question générale, demande d'amélioration",
+          "delai_prise_en_charge_heures": 8,
+          "delai_resolution_jours": 7,
+          "escalade_automatique": false
+        }
+      }
+    },
+    "politique_sauvegarde": {
+      "frequence": "Toutes les 4 heures",
+      "retention_jours": 30,
+      "delai_restauration_heures": 4,
+      "type": "Sauvegarde incrémentielle chiffrée AES-256"
+    },
+    "navigateurs_supportes": [
+      {"navigateur": "Chrome", "version_minimum": 110},
+      {"navigateur": "Firefox", "version_minimum": 115},
+      {"navigateur": "Edge", "version_minimum": 110},
+      {"navigateur": "Safari", "version_minimum": 16, "note": "macOS uniquement"}
+    ],
+    "navigateurs_non_supportes": [
+      "Internet Explorer (toutes versions)",
+      "Opera",
+      "Safari < 16"
+    ],
+    "contacts_internes": {
+      "support_niveau_2": "support-n2@techvision.fr",
+      "facturation": "facturation@techvision.fr",
+      "securite": "security@techvision.fr",
+      "technique": "tech@techvision.fr",
+      "superviseur": "superviseur-support@techvision.fr",
+      "commercial": "commercial@techvision.fr"
+    },
+    "ressources_clients": {
+      "centre_aide": "aide.techvision.fr",
+      "tutoriels_video": "aide.techvision.fr/videos",
+      "webinaires": "webinaires.techvision.fr",
+      "documentation_api": "dev.techvision.fr/docs",
+      "guide_migration_api_v2": "dev.techvision.fr/migration-v2",
+      "status_plateforme": "status.techvision.fr",
+      "portail_admin": "admin.techvision.fr"
+    },
+    "versions_api": {
+      "v1": {
+        "statut": "Deprecated",
+        "fin_support": "2026-01-01",
+        "note": "Migration vers v2 obligatoire"
+      },
+      "v2": {
+        "statut": "Active",
+        "disponible_depuis": "2024-06-01"
+      },
+      "v3": {
+        "statut": "Active",
+        "disponible_depuis": "2025-09-01",
+        "note": "Disponible plans Business et Enterprise uniquement — inclut webhooks"
+      }
+    },
+    "limites_upload": {
+      "starter_mo": 20,
+      "pro_mo": 50,
+      "business_mo": 500,
+      "enterprise_mo": 2000,
+      "formats_acceptes": ["PDF", "DOCX", "XLSX", "CSV", "PNG", "JPG", "MP4", "ZIP"],
+      "formats_refuses": ["EXE", "DMG", "BAT", "SH"]
+    },
+    "authentification": {
+      "tentatives_avant_blocage": 5,
+      "duree_blocage_minutes": 30,
+      "duree_lien_reinitialisation_heures": 24,
+      "2fa_methodes": ["Application TOTP (Google Authenticator)", "SMS", "Email"],
+      "sso_protocoles": ["SAML 2.0", "OAuth 2.0", "OpenID Connect"],
+      "sso_disponible": ["Business", "Enterprise"]
+    }
+  }
+}
