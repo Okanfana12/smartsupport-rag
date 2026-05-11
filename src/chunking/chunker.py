@@ -6,12 +6,12 @@ Chunking adaptatif — SmartSupport RAG
 Rôle :
     Découper les Documents nettoyés en chunks de taille optimale
     pour le RAG. Chaque chunk doit représenter une unité sémantique
-    cohérente — une question/réponse, un paragraphe, un ticket.
+    cohérente, une question/réponse, un paragraphe, un ticket.
 
 Stratégie :
     - Paramètres lus depuis config/config.yaml
     - chunk_size adapté selon le type de document
-    - RecursiveCharacterTextSplitter — respecte la structure du texte
+    - RecursiveCharacterTextSplitter, respecte la structure du texte
     - Overlap pour préserver le contexte entre chunks
 
 Pourquoi RecursiveCharacterTextSplitter ?
