@@ -8,15 +8,15 @@
 # -------------------------------------------------------------
 llm:
   # LLM principal — RAG sur documents longs
-  # Claude 3 Sonnet : 200K tokens contexte, excellent sur texte technique
+  # claude-3-5-sonnet-20240620 : version stable et disponible
   rag:
     provider: anthropic
-    model: claude-3-5-sonnet-20241022
+    model: claude-3-5-sonnet-20240620
     temperature: 0.1
     max_tokens: 2048
 
   # LLM rapide — Questions simples et courtes
-  # Claude 3 Haiku : 3x moins cher, 2x plus rapide que Sonnet
+  # Claude 3 Haiku : 3x moins cher, 2x plus rapide
   fast:
     provider: anthropic
     model: claude-3-haiku-20240307
@@ -60,83 +60,61 @@ embeddings:
 #   Documents tabulaires (CSV)
 #     → ["\n", ",", " ", ""]
 #     Priorité : ligne > champ > mot
-#     Pas de \n\n car pas de paragraphes dans un CSV
 #
 #   Documents structurés (JSON)
 #     → ["\n\n", "\n", " ", ""]
 #     Priorité : bloc > ligne > mot
-#     Pas de ". " car le JSON n'a pas de phrases
-#
-# Règle chunk_size :
-#   Après analyse des documents réels :
-#   PDF  → 8 pages, ~380 chars/page → chunk_size 300 = ~1 chunk/page ✅
-#   DOCX → 1 doc, ~12000 chars      → chunk_size 300 = ~12 chunks    ✅
-#   CSV  → 1 ligne = ~165 tokens    → chunk_size 300 = 1 chunk/ligne  ✅
-#   EML  → 1 doc, ~7400 chars       → chunk_size 400 = ~5 chunks      ✅
 # -------------------------------------------------------------
 chunking:
-  # PDF — documents techniques denses (FAQ, rapports)
-  # Séparateurs : paragraphe > ligne > phrase > mot
+  # PDF — documents techniques denses
   pdf:
     chunk_size: 300
     chunk_overlap: 60
     separators: ["\n\n", "\n", ". ", " ", ""]
 
   # DOCX — rapports structurés par paragraphes
-  # Séparateurs : paragraphe > ligne > phrase > mot
   docx:
     chunk_size: 300
     chunk_overlap: 60
     separators: ["\n\n", "\n", ". ", " ", ""]
 
   # CSV — données tabulaires (1 ligne = 1 ticket)
-  # Séparateurs : ligne > champ CSV > mot
-  # Pas de \n\n (pas de paragraphes) ni ". " (pas de phrases)
   csv:
     chunk_size: 300
     chunk_overlap: 50
     separators: ["\n", ",", " ", ""]
 
   # JSON — données structurées (clés/valeurs)
-  # Séparateurs : bloc > ligne > mot
-  # Pas de ". " (le JSON n'a pas de phrases naturelles)
   json:
     chunk_size: 300
     chunk_overlap: 60
     separators: ["\n\n", "\n", " ", ""]
 
   # HTML — contenu web (procédures, documentation)
-  # Après nettoyage BSHTMLLoader = texte structuré avec paragraphes
-  # Séparateurs : paragraphe > ligne > phrase > mot
   html:
     chunk_size: 300
     chunk_overlap: 60
     separators: ["\n\n", "\n", ". ", " ", ""]
 
-  # Email — échanges support (messages courts)
-  # chunk_size plus grand car 1 échange = ~600 chars
-  # Séparateurs : échange > ligne > phrase > mot
+  # Email — échanges support
   email:
     chunk_size: 400
     chunk_overlap: 80
     separators: ["\n\n", "\n", ". ", " ", ""]
 
-  # TXT — texte brut (notes internes, logs)
-  # Séparateurs : paragraphe > ligne > phrase > mot
+  # TXT — texte brut
   txt:
     chunk_size: 300
     chunk_overlap: 60
     separators: ["\n\n", "\n", ". ", " ", ""]
 
-  # PPTX — présentations (1 slide = 1 document)
-  # Slides courtes et indépendantes
-  # Séparateurs : paragraphe > ligne > phrase > mot
+  # PPTX — présentations
   pptx:
     chunk_size: 300
     chunk_overlap: 60
     separators: ["\n\n", "\n", ". ", " ", ""]
 
-  # Valeurs par défaut si type non reconnu
+  # Valeurs par défaut
   default:
     chunk_size: 300
     chunk_overlap: 60
@@ -146,8 +124,6 @@ chunking:
 # Vector Store — Stockage et recherche des vecteurs
 # -------------------------------------------------------------
 vector_store:
-  # "chroma" pour la production (persistance automatique)
-  # "faiss" pour le développement (simple, sans installation)
   type: chroma
 
   chroma:
@@ -161,17 +137,10 @@ vector_store:
 # RAG — Paramètres de retrieval et génération
 # -------------------------------------------------------------
 rag:
-  # Nombre de chunks retournés par la recherche vectorielle
   top_k: 4
-
-  # Seuil de confiance — entre 0.0 et 1.0
-  # En dessous : fallback déclenché
   confidence_threshold: 0.75
-
-  # Seuil d'avertissement — réponse avec warning
   confidence_warning: 0.50
 
-  # Prompt système RAG
   system_prompt: |
     Tu es un assistant support client expert pour TechVision SAS.
     Tu réponds aux questions des agents support en te basant
