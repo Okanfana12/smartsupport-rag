@@ -4,7 +4,7 @@ interface/app.py
 Interface Streamlit — SmartSupport RAG
 
 Assistant : ARIA — Assistant de Recherche Intelligente et d'Analyse
-Auto-indexation au démarrage si la base est vide.
+Compatible Streamlit Cloud et Codespaces.
 
 Auteur : Oumou Kanfana
 """
@@ -17,7 +17,9 @@ from pathlib import Path
 import streamlit as st
 
 # ── Setup du path projet ─────────────────────────────────────
-PROJECT_ROOT = Path(__file__).parent.parent
+# Fonctionne sur Streamlit Cloud ET Codespaces
+# Path(__file__).parent.parent = dossier racine du projet
+PROJECT_ROOT = Path(__file__).parent.parent.resolve()
 sys.path.insert(0, str(PROJECT_ROOT))
 os.chdir(PROJECT_ROOT)
 
@@ -47,27 +49,21 @@ st.set_page_config(
 def initialize_database():
     """
     Initialise la base documentaire au démarrage.
-
-    Vérifie si la base ChromaDB est vide.
-    Si oui → indexe automatiquement tous les documents du dossier data/.
-    Si non → utilise la base existante.
-
-    @st.cache_resource garantit que cette fonction
-    ne s'exécute qu'une seule fois par session Streamlit.
+    S'exécute une seule fois par session grâce à @st.cache_resource.
+    Si la base est vide → indexe automatiquement tous les documents.
     """
     try:
         stats = get_collection_stats()
         if stats["chunks_indexed"] > 0:
             return stats["chunks_indexed"]
 
-        # Base vide → indexation automatique
         folders = [
-            'data/pdf_files/',
-            'data/word_files/',
-            'data/csv_files/',
-            'data/json_files/',
-            'data/html_files/',
-            'data/email_files/',
+            str(PROJECT_ROOT / 'data/pdf_files/'),
+            str(PROJECT_ROOT / 'data/word_files/'),
+            str(PROJECT_ROOT / 'data/csv_files/'),
+            str(PROJECT_ROOT / 'data/json_files/'),
+            str(PROJECT_ROOT / 'data/html_files/'),
+            str(PROJECT_ROOT / 'data/email_files/'),
         ]
 
         all_chunks = []
@@ -84,7 +80,7 @@ def initialize_database():
 
         return 0
 
-    except Exception:
+    except Exception as e:
         return 0
 
 
@@ -119,19 +115,15 @@ st.markdown("""
     html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
 
     .aria-header {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1.5rem 0;
-        border-bottom: 1px solid var(--gray-200);
+        display: flex; align-items: center; gap: 1rem;
+        padding: 1.5rem 0; border-bottom: 1px solid var(--gray-200);
         margin-bottom: 2rem;
     }
 
     .aria-avatar {
-        width: 48px; height: 48px;
-        background: var(--blue);
-        border-radius: 14px;
-        display: flex; align-items: center; justify-content: center;
+        width: 48px; height: 48px; background: var(--blue);
+        border-radius: 14px; display: flex;
+        align-items: center; justify-content: center;
         font-size: 1.4rem; flex-shrink: 0;
     }
 
@@ -141,8 +133,7 @@ st.markdown("""
     }
 
     .aria-role {
-        font-size: 0.82rem; color: var(--gray-500);
-        margin: 2px 0 0 0;
+        font-size: 0.82rem; color: var(--gray-500); margin: 2px 0 0 0;
     }
 
     .status-badge {
@@ -153,9 +144,8 @@ st.markdown("""
     }
 
     .status-dot {
-        width: 6px; height: 6px;
-        background: var(--green); border-radius: 50%;
-        animation: pulse 2s infinite;
+        width: 6px; height: 6px; background: var(--green);
+        border-radius: 50%; animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
@@ -198,11 +188,11 @@ st.markdown("""
     }
 
     .source-tag {
-        display: inline-block;
-        background: var(--blue-light); color: var(--blue);
-        border: 1px solid var(--blue-border); border-radius: 6px;
-        padding: 0.2rem 0.65rem; font-size: 0.78rem; font-weight: 500;
-        margin: 0.2rem; font-family: 'DM Mono', monospace;
+        display: inline-block; background: var(--blue-light);
+        color: var(--blue); border: 1px solid var(--blue-border);
+        border-radius: 6px; padding: 0.2rem 0.65rem;
+        font-size: 0.78rem; font-weight: 500; margin: 0.2rem;
+        font-family: 'DM Mono', monospace;
     }
 
     .section-title {
@@ -224,8 +214,8 @@ st.markdown("""
     }
 
     .stButton > button[kind="primary"] {
-        background: var(--blue) !important;
-        border: none !important; border-radius: 10px !important;
+        background: var(--blue) !important; border: none !important;
+        border-radius: 10px !important;
         font-family: 'DM Sans', sans-serif !important;
         font-weight: 500 !important; padding: 0.6rem 1.5rem !important;
         transition: all 0.2s !important;
@@ -369,7 +359,6 @@ with st.sidebar:
     st.markdown('<div class="sidebar-label">🗑️ Gestion</div>', unsafe_allow_html=True)
     if st.button("Vider la base documentaire", use_container_width=True):
         reset_collection()
-        # Reset du cache pour forcer la réindexation au prochain chargement
         st.cache_resource.clear()
         st.success("Base vidée")
         st.rerun()
