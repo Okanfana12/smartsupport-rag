@@ -24,6 +24,7 @@ python-docx
 docx2txt
 beautifulsoup4
 lxml
+unstructured[doc]
 
 # Data Processing
 pandas
