@@ -1,3 +1,9 @@
+cat > requirements.txt << 'EOF'
+# =============================================================
+# SmartSupport RAG — Dépendances Python
+# Versions réelles installées dans l'environnement
+# =============================================================
+
 # LangChain & LangGraph
 langchain
 langchain-core
@@ -11,32 +17,23 @@ langgraph
 # LLM Providers
 openai
 anthropic
-ollama
 
 # Document Loaders
 pypdf
 python-docx
-python-pptx
+docx2txt
 beautifulsoup4
 lxml
-unstructured
 
 # Data Processing
 pandas
 numpy
-chardet
 
 # Vector Store
 chromadb
 
 # Embeddings
-sentence-transformers
 tiktoken
-
-# Evaluation
-ragas
-langsmith
-deepeval
 
 # Interface
 streamlit
@@ -52,4 +49,4 @@ loguru
 
 # Tests
 pytest
-pytest-asyncio
+EOF
