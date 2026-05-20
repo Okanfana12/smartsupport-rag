@@ -320,4 +320,4 @@ Toulouse | [oumoukanfana.com](https://oumoukanfana.com) | [LinkedIn](https://lin
 
 ---
 
-*Projet développé comme démonstration d'architecture RAG industrialisable — données fictives uniquement.*# smartsupport-rag
+*Projet développé comme démonstration d'architecture RAG industrialisable — données fictives.*# smartsupport-rag
